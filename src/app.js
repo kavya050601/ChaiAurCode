@@ -2,7 +2,7 @@ import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 
-const app = express()
+const app = express()  // read doc req, res 
 
 // cors configuration , settings -> objects(ctrl + space)   CORS_ORIGIN -> * from everywhere
 app.use(cors( {
@@ -18,7 +18,16 @@ app.use(express.urlencoded({extended: true, limit: "16kb"}))
 // public assets
 app.use(express.static("public"))
 // access and set cookie of user from server
-app.listen(cookieParser())
+app.use(cookieParser())
+
+// import routes
+import userRouter from './routes/user.routes.js'
+
+// routes declaration
+app.use("/api/v1/users", userRouter)
+// http://localhost:8000/api/v1/users/register
+// http://localhost:8000/api/v1/users/login
+
 
 export { app };
  
