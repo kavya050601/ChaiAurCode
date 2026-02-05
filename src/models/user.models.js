@@ -51,11 +51,12 @@ const userSchema = new Schema(
     }
 );
 
-userSchema.pre("save", async function (next) {
-    if(!this.isModified("password")) return next()
+userSchema.pre("save", async function () {
+  // next in () gave error of "next is not a function"
+  if (!this.isModified("password")) return; // next()
 
-    this.password = await bcrypt.hash(this.password, 10)
-    // next() // next gave error of "next is not a function"
+  this.password = await bcrypt.hash(this.password, 10);
+  // next() // next gave error of "next is not a function"
 }) // dont use arrow function here, cant get this ref, what to hash, how many rounds
 
 userSchema.methods.isPasswordCorrect = async function (password) {
